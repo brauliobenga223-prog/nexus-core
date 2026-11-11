@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#030817">
+<title>NEXUS AI CORE</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at center, #10264b, #030817 70%);
+    color: #e7faff;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+header {
+    text-align: center;
+    padding: 22px 10px 5px;
+}
+
+header h1 {
+    letter-spacing: 7px;
+    color: #4deaff;
+    text-shadow: 0 0 18px #00bfff;
+    margin-bottom: 5px;
+}
+
+header p {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #76a9c8;
+}
+
+.core-area {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.core {
+    width: 145px;
+    height: 145px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #b9ffff 0%, #00bfff 15%, #0750a1 45%, #03142e 72%);
+    box-shadow:
+        0 0 20px #00cfff,
+        0 0 55px #0077ff,
+        0 0 100px #0055bb;
+    animation: pulse 3s infinite ease-in-out;
+    position: relative;
+    z-index: 2;
+}
+
+.ring {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border: 2px solid rgba(0, 211, 255, .65);
+    border-radius: 50%;
+    transform: rotateX(65deg);
+    animation: rotate 8s linear infinite;
+}
+
+.ring.two {
+    width: 260px;
+    height: 260px;
+    border-color: rgba(0, 110, 255, .5);
+    animation-direction: reverse;
+    animation-duration: 12s;
+}
+
+.ring.three {
+    width: 185px;
+    height: 185px;
+    border-style: dashed;
+    animation-duration: 15s;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(.95); }
+    50% { transform: scale(1.08); }
+}
+
+@keyframes rotate {
+    from { transform: rotateX(65deg) rotateZ(0deg); }
+    to { transform: rotateX(65deg) rotateZ(360deg); }
+}
+
+.status {
+    text-align: center;
+    color: #65dfff;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.modules {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+    padding: 0 12px;
+    max-width: 550px;
+    margin: auto;
+}
+
+.module {
+    border: 1px solid rgba(0, 190, 255, .35);
+    background: rgba(0, 55, 100, .25);
+    padding: 13px 4px;
+    text-align: center;
+    border-radius: 10px;
+    color: #a8eaff;
+    font-size: 11px;
+}
+
+.chat {
+    max-width: 550px;
+    margin: 20px auto;
+    padding: 12px;
+}
+
+.messages {
+    height: 180px;
+    overflow-y: auto;
+    border: 1px solid rgba(0, 190, 255, .3);
+    border-radius: 12px;
+    padding: 12px;
+    background: rgba(0, 10, 30, .7);
+    font-size: 13px;
+}
+
+.message {
+    margin: 9px 0;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.user {
+    color: #ffffff;
+}
+
+.bot {
+    color: #52e7ff;
+}
+
+.controls {
+    display: flex;
+    gap: 7px;
+    margin-top: 10px;
+}
+
+input {
+    min-width: 0;
+    flex: 1;
+    padding: 13px;
+    border-radius: 8px;
+    border: 1px solid #087cb4;
+    background: #07152b;
+    color: white;
+    outline: none;
+}
+
+button {
+    border: 1px solid #00bfff;
+    background: #063c68;
+    color: white;
+    padding: 11px 13px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:active {
+    background: #087fbd;
+}
+
+.voice {
+    background: #075b82;
+    min-width: 45px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    color: #527e9e;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>NEXUS</h1>
+    <p>ARTIFICIAL INTELLIGENCE CORE</p>
+</header>
+
+<section class="core-area">
+    <div class="ring two"></div>
+    <div class="ring"></div>
+    <div class="ring three"></div>
+    <div class="core"></div>
+</section>
+
+<div class="status" id="status">
+    QUANTUM CORE INITIALIZED
+</div>
+
+<section class="modules">
+    <div class="module">🧠<br>INTELLIGENCE</div>
+    <div class="module">🌐<br>NETWORK</div>
+    <div class="module">🔬<br>SCIENCE</div>
+    <div class="module">⚡<br>ENERGY</div>
+    <div class="module">🔐<br>SECURITY</div>
+    <div class="module">📚<br>KNOWLEDGE</div>
+</section>
+
+<section class="chat">
+    <div class="messages" id="messages">
+        <div class="message bot">
+            NEXUS: Sistema iniciado. Estou pronto para comunicar.
+        </div>
+    </div>
+
+    <div class="controls">
+        <input id="input" type="text"
+        placeholder="Escreve uma mensagem...">
+
+        <button id="send">ENVIAR</button>
+        <button id="mic" class="voice">🎙</button>
+    </div>
+</section>
+
+<footer>
+    NEXUS AI CORE — QUANTUM SYSTEM
+</footer>
+
+<script>
+const input = document.getElementById("input");
+const messages = document.getElementById("messages");
+const statusText = document.getElementById("status");
+const sendButton = document.getElementById("send");
+const micButton = document.getElementById("mic");
+
+let history = [];
+
+try {
+    history = JSON.parse(
+        localStorage.getItem("nexus12") || "[]"
+    );
+} catch(e) {
+    history = [];
+}
+
+function addMessage(text, type) {
+    const div = document.createElement("div");
+    div.className = "message " + type;
+    div.textContent = (type === "user" ? "TU: " : "NEXUS: ") + text;
+
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+
+    history.push({
+        text: text,
+        type: type,
+        time: new Date().toISOString()
+    });
+
+    if (history.length > 100) {
+        history = history.slice(-100);
+    }
+
+    try {
+        localStorage.setItem("nexus12", JSON.stringify(history));
+    } catch(e) {}
+}
+
+function speak(text) {
+    if (!("speechSynthesis" in window)) {
+        return;
+    }
+
+    speechSynthesis.cancel();
+
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "pt-PT";
+    speech.rate = 1;
+    speech.pitch = 1;
+
+    speechSynthesis.speak(speech);
+}
+
+function respond(text) {
+    const msg = text.toLowerCase().trim();
+    const now = new Date();
+
+    if (
+        msg.includes("olá") ||
+        msg.includes("ola") ||
+        msg.includes("bom dia") ||
+        msg.includes("boa noite")
+    ) {
+        return "Olá! Sou o NEXUS. Estou preparado para ajudar.";
+    }
+
+    if (msg.includes("teu nome") || msg.includes("quem és")) {
+        return "Sou o NEXUS, o teu assistente inteligente.";
+    }
+
+    if (msg.includes("meu nome")) {
+        return "O meu utilizador principal é Bráulio.";
+    }
+
+    if (msg.includes("horas") || msg.includes("hora")) {
+        return "Agora são " + now.toLocaleTimeString("pt-PT") + ".";
+    }
+
+    if (msg.includes("data") || msg.includes("dia de hoje")) {
+        return "Hoje é " + now.toLocaleDateString("pt-PT") + ".";
+    }
+
+    if (msg.includes("ajuda") || msg.includes("comandos")) {
+        return "Podes perguntar as horas, a data, o meu nome ou iniciar uma conversa. A minha inteligência avançada será integrada numa próxima etapa.";
+    }
+
+    if (msg.includes("matemática") || msg.includes("matematica")) {
+        return "O módulo de matemática está preparado para futuras expansões. Posso ajudar com cálculos simples.";
+    }
+
+    if (msg.includes("ciência") || msg.includes("ciencia")) {
+        return "A ciência é uma das áreas de conhecimento que fazem parte da missão do NEXUS.";
+    }
+
+    if (msg.includes("internet") || msg.includes("pesquisa")) {
+        return "O acesso à pesquisa inteligente na Internet será integrado numa próxima versão.";
+    }
+
+    if (msg.includes("obrigado") || msg.includes("obrigada")) {
+        return "Sempre disponível para ajudar.";
+    }
+
+    return "Recebi a tua mensagem. Ainda estou a desenvolver a minha inteligência avançada. Este é o meu núcleo de comunicação inicial.";
+}
+
+function sendMessage() {
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    addMessage(text, "user");
+    input.value = "";
+
+    const answer = respond(text);
+
+    setTimeout(function() {
+        addMessage(answer, "bot");
+        speak(answer);
+    }, 350);
+}
+
+sendButton.addEventListener("click", sendMessage);
+
+input.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+});
+
+// RECONHECIMENTO DE VOZ
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+let recognition = null;
+let listening = false;
+
+if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.lang = "pt-PT";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = function() {
+        listening = true;
+        statusText.textContent = "A ESCUTAR...";
+        micButton.textContent = "🔴";
+    };
+
+    recognition.onresult = function(event) {
+        const transcript =
+            event.results[0][0].transcript;
+
+        input.value = transcript;
+        statusText.textContent = "VOZ RECONHECIDA";
+
+        sendMessage();
+    };
+
+    recognition.onerror = function(event) {
+        listening = false;
+        micButton.textContent = "🎙";
+
+        statusText.textContent =
+            "ERRO DE VOZ: " + event.error;
+
+        if (event.error === "not-allowed") {
+            addMessage(
+                "O Chrome ou o site não autorizou o microfone. Verifica as permissões.",
+                "bot"
+            );
+        } else if (event.error === "no-speech") {
+            addMessage("Não detectei nenhuma voz. Tenta novamente.", "bot");
+        } else {
+            addMessage(
+                "O reconhecimento de voz encontrou um problema: " +
+                event.error,
+                "bot"
+            );
+        }
+    };
+
+    recognition.onend = function() {
+        listening = false;
+        micButton.textContent = "🎙";
+
+        if (statusText.textContent === "A ESCUTAR...") {
+            statusText.textContent = "QUANTUM CORE INITIALIZED";
+        }
+    };
+
+} else {
+    micButton.disabled = true;
+    statusText.textContent = "RECONHECIMENTO DE VOZ NÃO SUPORTADO";
+}
+
+micButton.addEventListener("click", function() {
+    if (!recognition) {
+        addMessage(
+            "O teu navegador não suporta reconhecimento de voz.",
+            "bot"
+        );
+        return;
+    }
+
+    if (listening) {
+        recognition.stop();
+        return;
+    }
+
+    try {
+        speechSynthesis.cancel();
+        recognition.start();
+    } catch(error) {
+        statusText.textContent = "NÃO FOI POSSÍVEL INICIAR O MICROFONE";
+    }
+});
+
+// RESTAURAR HISTÓRICO
+
+history.forEach(function(item) {
+    const div = document.createElement("div");
+    div.className = "message " + item.type;
+    div.textContent =
+        (item.type === "user" ? "TU: " : "NEXUS: ") +
+        item.text;
+
+    messages.appendChild(div);
+});
+
+messages.scrollTop = messages.scrollHeight;
+
+// SAUDAÇÃO
+
+setTimeout(function() {
+    speak("NEXUS inicializado. Estou pronto, Bráulio.");
+}, 1200);
+
+</script>
+
+</body>
+  </html>
